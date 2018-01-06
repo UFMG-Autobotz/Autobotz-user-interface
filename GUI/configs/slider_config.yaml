@@ -1,0 +1,32 @@
+Esquerda:
+  nome: "Esquerda"
+  stream_freq: 10 #Hz
+  pubs:
+  - ["", ""]
+  - ["", ""]
+  - ["", ""]
+  subs:
+  - [["", ""], ["", ""]]
+  - [["", ""], ["", ""]]
+  - [["", ""], ["", ""]]
+  sliders: ['F', 'V', 'P']
+  range: [[0,2], [0,100], [0,360]]
+  ticks: 23
+  tipo: ["float", "int", "float"]
+
+
+
+Direita:
+  nome: "Direita"
+  pubs:
+  - ["", ""]
+  - ["", ""]
+  - ["", ""]
+  subs:
+  - [["", ""], ["", ""]]
+  - [["", ""], ["", ""]]
+  - [["", ""], ["", ""]]
+  sliders: ['F', 'V', 'P']
+  range: [[0,2], [0,100], [0,360]]
+  ticks: 20
+  tipo: ["float", "int", "float"]

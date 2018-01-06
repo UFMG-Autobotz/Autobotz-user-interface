@@ -1,0 +1,7 @@
+Robot:
+  - Name: VT
+    Left: [/VT__VT__chassi_rodaBL/joint_vel, /VT__VT__chassi_rodaFL/joint_vel]
+    Right: [/VT__VT__chassi_rodaBR/joint_vel, /VT__VT__chassi_rodaFR/joint_vel]
+    VelStraight: 10
+    VelCurve: 9
+    KeyConfig: arrows

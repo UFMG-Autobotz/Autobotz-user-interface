@@ -1,0 +1,13 @@
+VT:
+  nome: "VT"
+  stream_freq: 20 #Hz
+  pubs:
+  - ["/VT/joint_vel_VT__chassi_rodaBL", /VT/joint_vel_VT__chassi_rodaFL]
+  - [/VT/joint_vel_VT__chassi_rodaBR, /VT/joint_vel_VT__chassi_rodaFR]
+  # subs:
+  # - [["Vel BL", ""], ["Vel FL", ""]]
+  # - [["Vel BR", ""], ["Vel FR", ""]]
+  sliders: ['V Esquerda', 'V Direita']
+  range: [[-10,10], [-10,10]]
+  ticks: 20
+  tipo: ["float", "float"]

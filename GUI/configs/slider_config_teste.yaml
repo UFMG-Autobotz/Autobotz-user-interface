@@ -1,0 +1,11 @@
+Velodyne:
+  nome: "Velodyne"
+  stream_freq: 5 #Hz
+  pubs:
+  - ["/my_velodyne/vel_cmd"]
+  # subs:
+  # - [["Vel Feed", "/my_velodyne/vel_feedback"]]
+  sliders: ['Velocidade']
+  range: [[0,20]]
+  ticks: 40
+  tipo: ["float"]
