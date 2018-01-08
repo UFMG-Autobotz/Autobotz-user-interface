@@ -9,7 +9,7 @@ import rospy
 from std_msgs.msg import Float32
 
 class SubWindowGamepad(QtGui.QWidget):
-    def __init__(self, parent, data):
+    def __init__(self, parent, data, joystickNumber):
         super(SubWindowGamepad, self).__init__(parent)
 
         self.config(data)
@@ -18,7 +18,7 @@ class SubWindowGamepad(QtGui.QWidget):
         self.keys = np.array([0, 0, 0, 0]) # [up, down, left, rigth], 1 when pressed
         pygame.joystick.init()
         joystick_count = pygame.joystick.get_count()
-        if (joystick_count == 0):
+        if (joystick_count < (joystickNumber+1)): # checks if there is enough joysticks
             self.initUI(True) # enable error message "Joystick not found"
         else:
             self.initUI(False)
@@ -34,17 +34,8 @@ class SubWindowGamepad(QtGui.QWidget):
         self.initROS(data)
 
     def keyConfig(self, config):
-        if (config == 'wasd'):
-            return np.array([QtCore.Qt.Key_W, QtCore.Qt.Key_S, QtCore.Qt.Key_A, QtCore.Qt.Key_D])
-
-        if (config == 'zqsd'):
-            return np.array([QtCore.Qt.Key_Z, QtCore.Qt.Key_S, QtCore.Qt.Key_Q, QtCore.Qt.Key_D])
-
-        if (config == 'ijkl'):
-            return np.array([QtCore.Qt.Key_I, QtCore.Qt.Key_K, QtCore.Qt.Key_J, QtCore.Qt.Key_L])
-
-        if (config == 'oklm'):
-            return np.array([QtCore.Qt.Key_O, QtCore.Qt.Key_L, QtCore.Qt.Key_K, QtCore.Qt.Key_M])
+        if (config == 'gamepad'):
+            return np.array([])
 
         return np.array([QtCore.Qt.Key_Up, QtCore.Qt.Key_Down, QtCore.Qt.Key_Left, QtCore.Qt.Key_Right])
 
@@ -71,7 +62,7 @@ class SubWindowGamepad(QtGui.QWidget):
         self.layout.addWidget(self.frame);
 
         if (errorFlag):
-            self.errorMessage = QtGui.QLabel('JOYSTICKS NOT FOUND')
+            self.errorMessage = QtGui.QLabel('JOYSTICK NOT FOUND')
             self.layout.addWidget(self.errorMessage)
         else:
             self.displayVelL = QtGui.QLabel('Left wheel speed: ' + str(self.velL) + ' rads/s', parent=self.frame)
