@@ -16,8 +16,13 @@ class SubWindowGamepad(QtGui.QWidget):
 
         self.velR = self.velL = 0
         self.keys = np.array([0, 0, 0, 0]) # [up, down, left, rigth], 1 when pressed
+        pygame.joystick.init()
+        joystick_count = pygame.joystick.get_count()
+        if (joystick_count == 0):
+            self.initUI(True) # enable error message "Joystick not found"
+        else:
+            self.initUI(False)
 
-        self.initUI();
 
     # load .yaml file and set configuration data (called from constructor)
     def config(self, data):
@@ -57,19 +62,22 @@ class SubWindowGamepad(QtGui.QWidget):
             self.pubR.append(rospy.Publisher(topic, Float32, queue_size = 100));
 
     # initialie interface elements (called from constructor)
-    def initUI(self):
+    def initUI(self, errorFlag):
         self.resize(300, 100)
 
         self.frame = QtGui.QGroupBox(self)
         self.frame.setTitle(self.name)
-
-        self.displayVelL = QtGui.QLabel('Left wheel speed: ' + str(self.velL) + ' rads/s', parent=self.frame)
-        self.displayVelR = QtGui.QLabel('Right wheel speed: ' + str(self.velR) + ' rads/s', parent=self.frame)
-
         self.layout = QtGui.QVBoxLayout(self)
         self.layout.addWidget(self.frame);
-        self.layout.addWidget(self.displayVelL);
-        self.layout.addWidget(self.displayVelR);
+
+        if (errorFlag):
+            self.errorMessage = QtGui.QLabel('JOYSTICKS NOT FOUND')
+            self.layout.addWidget(self.errorMessage)
+        else:
+            self.displayVelL = QtGui.QLabel('Left wheel speed: ' + str(self.velL) + ' rads/s', parent=self.frame)
+            self.displayVelR = QtGui.QLabel('Right wheel speed: ' + str(self.velR) + ' rads/s', parent=self.frame)
+            self.layout.addWidget(self.displayVelL);
+            self.layout.addWidget(self.displayVelR);
 
     # called each time a key is pressed
     def keyPressEvent(self, event):

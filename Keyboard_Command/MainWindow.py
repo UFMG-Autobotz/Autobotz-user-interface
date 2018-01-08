@@ -2,6 +2,7 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 
 import yaml
+import pygame
 
 from SubWindow import SubWindow
 from SubWindowGamepad import SubWindowGamepad
@@ -15,7 +16,6 @@ class MainWindow(QtGui.QWidget):
         self.subWindows = [];
         for robot in data['Robot']:
             if (robot['KeyConfig'] == 'gamepad' or robot['KeyConfig'] == 'gamepad2'):
-                print("Hellow")
                 self.subWindows.append(SubWindowGamepad(self, robot))
             else:
                 self.subWindows.append(SubWindow(self, robot))
