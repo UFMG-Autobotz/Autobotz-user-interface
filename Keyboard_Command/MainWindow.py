@@ -39,6 +39,7 @@ class MainWindow(QtGui.QWidget):
             return
 
         for subwindow in self.subWindows:
+            if (type(subwindow) is subwindow)
             subwindow.keyPressEvent(event)
 
         event.accept()
