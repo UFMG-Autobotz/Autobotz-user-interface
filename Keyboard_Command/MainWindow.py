@@ -7,11 +7,21 @@ import pygame
 from SubWindow import SubWindow
 from SubWindowGamepad import SubWindowGamepad
 
+class calcVelocityGamepad(QtCore.QThread):
+    def __init__(self,subwindow):
+        QtCore.QThread.__init__(self)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.run)
+        self.timer.start(10)
+        self.subwindow = subwindow
+
+    def run(self):
+        self.subwindow.calcVelocity()
+
 class MainWindow(QtGui.QWidget):
     def __init__(self, config):
         super(MainWindow, self).__init__()
         self.setWindowTitle('Keyboard Control')
-
         data = self.loadConfig(config)
         self.subWindows = [];
         for robot in data['Robot']:
@@ -21,10 +31,14 @@ class MainWindow(QtGui.QWidget):
                 self.subWindows.append(SubWindowGamepad(self, robot, 1))
             else:
                 self.subWindows.append(SubWindow(self, robot))
-
         for idx, subwindow in enumerate(self.subWindows):
-
             subwindow.move(5, 5 + (subwindow.size().height()+25)*idx)
+
+        self.calcVelocityGamepadThreads = []
+        for subwindow in self.subWindows:
+            if (type(subwindow) is SubWindowGamepad):
+                self.calcVelocityGamepadThreads.append(calcVelocityGamepad(subwindow))
+        print('D')
 
     def loadConfig(self, config):
         try:
@@ -37,17 +51,23 @@ class MainWindow(QtGui.QWidget):
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
             return
-
         for subwindow in self.subWindows:
-            if (type(subwindow) is subwindow) :
+            if (type(subwindow) is subwindow):
+                print('B')
                 subwindow.keyPressEvent(event)
-
         event.accept()
 
     def keyReleaseEvent(self, event):
         if event.isAutoRepeat():
             return
-
         for subwindow in self.subWindows:
-            subwindow.keyReleaseEvent(event)
+            if (type(subwindow) is subwindow):
+                subwindow.keyReleaseEvent(event)
         event.accept()
+'''
+    def updateGamepad(self):
+        print('RUN')
+        for subwindow in self.subWindows:
+            if (type(subwindow) is SubWindowGamepad):
+                subwindow.calcVelocity
+'''

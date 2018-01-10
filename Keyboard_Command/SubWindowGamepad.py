@@ -65,22 +65,13 @@ class SubWindowGamepad(QtGui.QWidget):
             self.layout.addWidget(self.displayVelL);
             self.layout.addWidget(self.displayVelR);
 
-    # called each time a key is pressed
     def keyPressEvent(self, event):
         self.calcVelocity()
 
     # called each time a key is released
     def keyReleaseEvent(self, event):
         self.calcVelocity()
-    '''
-    # save each arrow keys are pressed (called from keyPressEvent and keyReleaseEvent)
-    def keyMap(self, event, status):
-        if event.key() == self.keyNames[0]:
-            self.keys[0] = status
-        elif event.key() == self.keyNames[1]:
-            self.keys[1] = status
-        self.calcVelocity()
-    '''
+
     # determine velocity of left an right wheels according to the keys being pressed (called form keyMap)
     def calcVelocity(self):
         pygame.event.pump()
