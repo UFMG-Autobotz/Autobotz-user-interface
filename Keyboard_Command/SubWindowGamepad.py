@@ -15,21 +15,21 @@ class SubWindowGamepad(QtGui.QWidget):
         self.velR = self.velL = 0.0
         self.keys = np.array([0, 0]) # [up, down, left, rigth], 1 when pressed
         pygame.joystick.init()
-        pygame.display.init()
+        pygame.display.init() # I don't have idea why it's necessary, but it is
         joystick_count = pygame.joystick.get_count()
         if (joystick_count < (joystickNumber+1)): # checks if there is enough joysticks
             self.initUI(True) # enable error message "Joystick not found"
         else:
-            self.initUI(False)
             self.joystick = pygame.joystick.Joystick(joystickNumber)
+            self.joystickName = self.joystick.get_name()
             self.joystick.init()
+            self.initUI(False)
 
     # load .yaml file and set configuration data (called from constructor)
     def config(self, data):
         self.name = data['Name']
         self.velS = data['VelStraight']
         self.velC = data['VelCurve']
-        # self.keyNames = self.keyConfig(data['KeyConfig'])
         self.initROS(data)
 
     # start initialize ros and create publisher for left and right sides (called from loadConfig)
@@ -53,10 +53,12 @@ class SubWindowGamepad(QtGui.QWidget):
             self.errorMessage = QtGui.QLabel('JOYSTICK NOT FOUND')
             self.layout.addWidget(self.errorMessage)
         else:
+            self.displayDeviceName = QtGui.QLabel('Device: ' + self.joystick.get_name(), parent=self.frame)
             self.displayVelL = QtGui.QLabel('Left wheel speed: ' + str(self.velL) + ' rads/s', parent=self.frame)
             self.displayVelR = QtGui.QLabel('Right wheel speed: ' + str(self.velR) + ' rads/s', parent=self.frame)
-            self.layout.addWidget(self.displayVelL);
-            self.layout.addWidget(self.displayVelR);
+            self.layout.addWidget(self.displayDeviceName)
+            self.layout.addWidget(self.displayVelL)
+            self.layout.addWidget(self.displayVelR)
 
     # determine velocity of left an right wheels according to the keys being pressed (called form keyMap)
     def calcVelocity(self):

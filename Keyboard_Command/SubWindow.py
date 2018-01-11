@@ -12,6 +12,7 @@ class SubWindow(QtGui.QWidget):
         self.config(data)
         self.velR = self.velL = 0.0
         self.keys = np.array([0, 0, 0, 0]) # [up, down, left, rigth], 1 when pressed
+        self.dispKeys = data['KeyConfig']
         self.initUI();
 
     # load .yaml file and set configuration data (called from constructor)
@@ -48,12 +49,14 @@ class SubWindow(QtGui.QWidget):
         self.resize(300, 100)
         self.frame = QtGui.QGroupBox(self)
         self.frame.setTitle(self.name)
+        self.displayDeviceName = QtGui.QLabel('Device: keyboard (' + self.dispKeys + ')', parent=self.frame)
         self.displayVelL = QtGui.QLabel('Left wheel speed: ' + str(self.velL) + ' rads/s', parent=self.frame)
         self.displayVelR = QtGui.QLabel('Right wheel speed: ' + str(self.velR) + ' rads/s', parent=self.frame)
         self.layout = QtGui.QVBoxLayout(self)
-        self.layout.addWidget(self.frame);
-        self.layout.addWidget(self.displayVelL);
-        self.layout.addWidget(self.displayVelR);
+        self.layout.addWidget(self.frame)
+        self.layout.addWidget(self.displayDeviceName)
+        self.layout.addWidget(self.displayVelL)
+        self.layout.addWidget(self.displayVelR)
 
     # called each time a key is pressed
     def keyPressEvent(self, event):
