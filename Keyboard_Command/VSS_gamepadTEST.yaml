@@ -1,0 +1,14 @@
+Robot:
+  - Name: Neybot (gamepad)
+    Left: [/player1__player__chassi_left_wheel/joint_vel]
+    Right: [/player1__player__chassi_right_wheel/joint_vel]
+    VelStraight: 10
+    VelCurve: 9
+    KeyConfig: gamepad
+
+  - Name: Automar (arrows)
+    Left: [/player2__player__chassi_left_wheel/joint_vel]
+    Right: [/player2__player__chassi_right_wheel/joint_vel]
+    VelStraight: 10
+    VelCurve: 9
+    KeyConfig: arrows

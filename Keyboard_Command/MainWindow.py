@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 
@@ -12,7 +13,7 @@ class calcVelocityGamepad(QtCore.QThread):
         QtCore.QThread.__init__(self)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.run)
-        self.timer.start(10)
+        self.timer.start(33) #Assim, a velocidade é calculada ~30x por segundo
         self.subwindow = subwindow
 
     def run(self):
@@ -38,7 +39,6 @@ class MainWindow(QtGui.QWidget):
         for subwindow in self.subWindows:
             if (type(subwindow) is SubWindowGamepad):
                 self.calcVelocityGamepadThreads.append(calcVelocityGamepad(subwindow))
-        print('D')
 
     def loadConfig(self, config):
         try:
@@ -51,23 +51,16 @@ class MainWindow(QtGui.QWidget):
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
             return
+
         for subwindow in self.subWindows:
-            if (type(subwindow) is subwindow):
-                print('B')
-                subwindow.keyPressEvent(event)
+            subwindow.keyPressEvent(event)
+
         event.accept()
 
     def keyReleaseEvent(self, event):
         if event.isAutoRepeat():
             return
+
         for subwindow in self.subWindows:
-            if (type(subwindow) is subwindow):
-                subwindow.keyReleaseEvent(event)
+            subwindow.keyReleaseEvent(event)
         event.accept()
-'''
-    def updateGamepad(self):
-        print('RUN')
-        for subwindow in self.subWindows:
-            if (type(subwindow) is SubWindowGamepad):
-                subwindow.calcVelocity
-'''
