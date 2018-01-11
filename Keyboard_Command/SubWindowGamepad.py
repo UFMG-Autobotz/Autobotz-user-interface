@@ -78,12 +78,11 @@ class SubWindowGamepad(QtGui.QWidget):
         Xaxis = self.joystick.get_axis(0)
         Yaxis = self.joystick.get_axis(1)
         print('{:>6.3f}'.format(Xaxis))
-        self.keys = np.array([Xaxis, Yaxis])
+        self.keys = np.array([-Yaxis, Xaxis])
 
-        direction = -2*self.keys[1] + 1 # used to deal with backwards motion, -1 when down is pressed 1 otherwise
 
-        self.velL = np.dot(np.array([self.velS, -self.velC*direction]), self.keys);
-        self.velR = np.dot(np.array([self.velS, self.velC*direction]), self.keys);
+        self.velL = np.dot(np.array([self.velS, self.velC]), self.keys);
+        self.velR = np.dot(np.array([self.velS, -self.velC]), self.keys);
 
         self.displayVelL.setText('Left wheel speed: ' + str(self.velL) + ' rads/s');
         self.displayVelR.setText('Right wheel speed: ' + str(self.velR) + ' rads/s');
