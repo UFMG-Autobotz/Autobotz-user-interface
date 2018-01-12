@@ -13,7 +13,7 @@ class SubWindow(QtGui.QWidget):
         self.velR = self.velL = 0.0
         self.keys = np.array([0, 0, 0, 0]) # [up, down, left, rigth], 1 when pressed
         self.dispKeys = data['KeyConfig']
-        self.initUI();
+        self.initUI()
 
     # load .yaml file and set configuration data (called from constructor)
     def config(self, data):
@@ -39,10 +39,10 @@ class SubWindow(QtGui.QWidget):
         rospy.init_node('keyboardControl', anonymous=True)
         self.pubL = []
         for topic in data['Left']:
-            self.pubL.append(rospy.Publisher(topic, Float32, queue_size = 100));
+            self.pubL.append(rospy.Publisher(topic, Float32, queue_size = 100))
         self.pubR = []
         for topic in data['Right']:
-            self.pubR.append(rospy.Publisher(topic, Float32, queue_size = 100));
+            self.pubR.append(rospy.Publisher(topic, Float32, queue_size = 100))
 
     # initialie interface elements (called from constructor)
     def initUI(self):
@@ -83,10 +83,10 @@ class SubWindow(QtGui.QWidget):
     # determine velocity of left an right wheels according to the keys being pressed (called form keyMap)
     def calcVelocity(self):
         direction = -2*self.keys[1] + 1 # used to deal with backwards motion, -1 when down is pressed 1 otherwise
-        self.velL = np.dot(np.array([self.velS, -self.velS, self.velC*direction, -self.velC*direction]), self.keys);
-        self.velR = np.dot(np.array([self.velS, -self.velS, -self.velC*direction, self.velC*direction]), self.keys);
-        self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s');
-        self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s');
+        self.velL = np.dot(np.array([self.velS, -self.velS, self.velC*direction, -self.velC*direction]), self.keys)
+        self.velR = np.dot(np.array([self.velS, -self.velS, -self.velC*direction, self.velC*direction]), self.keys)
+        self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s')
+        self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s')
         for topic in self.pubL:
             topic.publish(self.velL)
         for topic in self.pubR:

@@ -24,11 +24,11 @@ class MainWindow(QtGui.QWidget):
         self.setWindowTitle('Keyboard Control')
         data = self.loadConfig(config)
         self.subWindows = []
+        gamepadID = 0
         for robot in data['Robot']:
             if (robot['KeyConfig'] == 'gamepad'):
-                self.subWindows.append(SubWindowGamepad(self, robot, 0))
-            elif (robot['KeyConfig'] == 'gamepad2'):
-                self.subWindows.append(SubWindowGamepad(self, robot, 1))
+                self.subWindows.append(SubWindowGamepad(self, robot, gamepadID))
+                gamepadID += 1
             else:
                 self.subWindows.append(SubWindow(self, robot))
         for idx, subwindow in enumerate(self.subWindows):

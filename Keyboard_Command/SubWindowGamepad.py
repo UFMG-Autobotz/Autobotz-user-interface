@@ -37,10 +37,10 @@ class SubWindowGamepad(QtGui.QWidget):
         rospy.init_node('keyboardControl', anonymous=True)
         self.pubL = []
         for topic in data['Left']:
-            self.pubL.append(rospy.Publisher(topic, Float32, queue_size = 100));
+            self.pubL.append(rospy.Publisher(topic, Float32, queue_size = 100))
         self.pubR = []
         for topic in data['Right']:
-            self.pubR.append(rospy.Publisher(topic, Float32, queue_size = 100));
+            self.pubR.append(rospy.Publisher(topic, Float32, queue_size = 100))
 
     # initialie interface elements (called from constructor)
     def initUI(self, errorFlag):
@@ -48,7 +48,7 @@ class SubWindowGamepad(QtGui.QWidget):
         self.frame = QtGui.QGroupBox(self)
         self.frame.setTitle(self.name)
         self.layout = QtGui.QVBoxLayout(self)
-        self.layout.addWidget(self.frame);
+        self.layout.addWidget(self.frame)
         if (errorFlag):
             self.errorMessage = QtGui.QLabel('JOYSTICK NOT FOUND')
             self.layout.addWidget(self.errorMessage)
@@ -69,8 +69,8 @@ class SubWindowGamepad(QtGui.QWidget):
         else:
             Xaxis = self.joystick.get_axis(0)
         self.keys = np.array([-Yaxis, Xaxis])
-        self.velL = np.dot(np.array([self.velS, self.velC]), self.keys);
-        self.velR = np.dot(np.array([self.velS, -self.velC]), self.keys);
+        self.velL = np.dot(np.array([self.velS, self.velC]), self.keys)
+        self.velR = np.dot(np.array([self.velS, -self.velC]), self.keys)
         self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s')
         self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s')
         for topic in self.pubL:
