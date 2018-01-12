@@ -16,14 +16,15 @@ class SubWindowGamepad(QtGui.QWidget):
         self.keys = np.array([0, 0]) # [up, down, left, rigth], 1 when pressed
         pygame.joystick.init()
         pygame.display.init() # I don't have idea why it's necessary, but it is
-        joystick_count = pygame.joystick.get_count()
-        if (joystick_count < (joystickNumber+1)): # checks if there is enough joysticks
-            self.initUI(True) # enable error message "Joystick not found"
+        self.joystick_count = pygame.joystick.get_count()
+        self.notEnoughJoysticks = False
+        if (self.joystick_count < (joystickNumber+1)): # checks if there is enough joysticks
+            self.notEnoughJoysticks = True
         else:
             self.joystick = pygame.joystick.Joystick(joystickNumber)
             self.joystickName = self.joystick.get_name()
             self.joystick.init()
-            self.initUI(False)
+        self.initUI(self.notEnoughJoysticks)
 
     # load .yaml file and set configuration data (called from constructor)
     def config(self, data):
@@ -62,18 +63,19 @@ class SubWindowGamepad(QtGui.QWidget):
 
     # determine velocity of left an right wheels according to the keys being pressed (called form keyMap)
     def calcVelocity(self):
-        pygame.event.pump()
-        Yaxis = self.joystick.get_axis(1)
-        if (Yaxis>0): # used to deal with backwards motion
-            Xaxis = -self.joystick.get_axis(0)
-        else:
-            Xaxis = self.joystick.get_axis(0)
-        self.keys = np.array([-Yaxis, Xaxis])
-        self.velL = np.dot(np.array([self.velS, self.velC]), self.keys)
-        self.velR = np.dot(np.array([self.velS, -self.velC]), self.keys)
-        self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s')
-        self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s')
-        for topic in self.pubL:
-            topic.publish(self.velL)
-        for topic in self.pubR:
-            topic.publish(self.velR)
+        if (not self.notEnoughJoysticks):
+            pygame.event.pump()
+            Yaxis = self.joystick.get_axis(1)
+            if (Yaxis>0): # used to deal with backwards motion
+                Xaxis = -self.joystick.get_axis(0)
+            else:
+                Xaxis = self.joystick.get_axis(0)
+            self.keys = np.array([-Yaxis, Xaxis])
+            self.velL = np.dot(np.array([self.velS, self.velC]), self.keys)
+            self.velR = np.dot(np.array([self.velS, -self.velC]), self.keys)
+            self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s')
+            self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s')
+            for topic in self.pubL:
+                topic.publish(self.velL)
+            for topic in self.pubR:
+                topic.publish(self.velR)
