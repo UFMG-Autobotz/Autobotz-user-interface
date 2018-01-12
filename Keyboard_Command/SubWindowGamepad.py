@@ -63,13 +63,16 @@ class SubWindowGamepad(QtGui.QWidget):
     # determine velocity of left an right wheels according to the keys being pressed (called form keyMap)
     def calcVelocity(self):
         pygame.event.pump()
-        Xaxis = self.joystick.get_axis(0)
         Yaxis = self.joystick.get_axis(1)
+        if (Yaxis>0): # used to deal with backwards motion
+            Xaxis = -self.joystick.get_axis(0)
+        else:
+            Xaxis = self.joystick.get_axis(0)
         self.keys = np.array([-Yaxis, Xaxis])
         self.velL = np.dot(np.array([self.velS, self.velC]), self.keys);
         self.velR = np.dot(np.array([self.velS, -self.velC]), self.keys);
-        self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s');
-        self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s');
+        self.displayVelL.setText('Left wheel speed: ' + str('{:>.1f}'.format(self.velL)) + ' rads/s')
+        self.displayVelR.setText('Right wheel speed: ' + str('{:>.1f}'.format(self.velR)) + ' rads/s')
         for topic in self.pubL:
             topic.publish(self.velL)
         for topic in self.pubR:
