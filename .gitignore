@@ -1,12 +1,5 @@
-GUI/DockTitleBar.pyc
-GUI/general_utils.pyc
-GUI/Graphs.pyc
-GUI/Image.pyc
-GUI/Main_Window.pyc
-GUI/qt_utils.pyc
-GUI/RTPlotter.pyc
-GUI/Slider.pyc
-GUI/Vision.pyc
+GUI/lib/*.pyc
+GUI/*.pyc
 
 Keyboard_Command/MainWindow.pyc
 Keyboard_Command/SubWindow.pyc
