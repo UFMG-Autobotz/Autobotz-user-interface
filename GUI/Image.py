@@ -9,7 +9,7 @@ from cv_bridge import CvBridge, CvBridgeError
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
-from general_utils import get_yaml_dict
+from lib.general_utils import get_yaml_dict
 
 
 class Image_Window(QtGui.QWidget):

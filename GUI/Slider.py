@@ -9,8 +9,8 @@ import numpy as np
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
-from general_utils import get_yaml_dict
-from qt_utils import qt_Line
+from lib.general_utils import get_yaml_dict
+from lib.qt_utils import qt_Line
 
 class Sliders_Window(QtGui.QWidget):
 	def __init__(self, configs_file, parent = None):
@@ -96,7 +96,7 @@ class Sliders_Window(QtGui.QWidget):
 		freq = self.groups[topic]['stream_freq']
 		self.stream_timer[topic][slider].start(1000.0 / freq)
 
-	def stop_timer(self, topic, slider):       
+	def stop_timer(self, topic, slider):
 		self.stream_timer[topic][slider].stop()
 
 	def radio_response(self, topic, slider, button):
@@ -204,7 +204,7 @@ class Sliders_Window(QtGui.QWidget):
 				self.radio_buttons[-1][-1][0].clicked.connect( lambda _, topic=k, slider=i, button_ID=0: self.radio_response(topic, slider, button_ID) )
 				self.radio_buttons[-1][-1][1].clicked.connect( lambda _, topic=k, slider=i, button_ID=1: self.radio_response(topic, slider, button_ID) )
 				self.radio_buttons[-1][-1][2].clicked.connect( lambda _, topic=k, slider=i, button_ID=2: self.radio_response(topic, slider, button_ID) )
-				
+
 				self.radio_buttons_groups[-1][-1].addButton(self.radio_buttons[-1][-1][0])
 				self.radio_buttons_groups[-1][-1].addButton(self.radio_buttons[-1][-1][1])
 				self.radio_buttons_groups[-1][-1].addButton(self.radio_buttons[-1][-1][2])

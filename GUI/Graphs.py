@@ -7,8 +7,8 @@ from std_msgs.msg import Float32
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 
-from general_utils import get_yaml_dict
-from RTPlotter import RTPlotter
+from lib.general_utils import get_yaml_dict
+from lib.RTPlotter import RTPlotter
 
 class Graphs_Window(QtGui.QWidget):
 	def __init__(self, configs_file, parent = None):
