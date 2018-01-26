@@ -6,6 +6,7 @@ from PyQt4 import QtCore
 import sys
 
 import rospy
+
 import yaml
 import pygame
 
@@ -13,7 +14,6 @@ from lib.keyboard import Keyboard
 from lib.gamepad import Gamepad
 
 # --------------------- #
-
 
 class calcVelocityGamepad(QtCore.QThread):
     def __init__(self,subwindow):
@@ -24,6 +24,8 @@ class calcVelocityGamepad(QtCore.QThread):
         self.subwindow = subwindow
     def run(self):
         self.subwindow.calcVelocity()
+
+# --------------------- #
 
 class Command_Window(QtGui.QWidget):
     def __init__(self, config, parent = None):
@@ -52,7 +54,6 @@ class Command_Window(QtGui.QWidget):
             quit()
 
     def keyPressEvent(self, event):
-        print "oi"
         if event.isAutoRepeat():
             return
         for subwindow in self.subWindows:
@@ -60,7 +61,6 @@ class Command_Window(QtGui.QWidget):
         event.accept()
 
     def keyReleaseEvent(self, event):
-        print "tchau"
         if event.isAutoRepeat():
             return
         for subwindow in self.subWindows:
@@ -70,17 +70,17 @@ class Command_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
+    rospy.init_node('Command', anonymous=True)
     app = QtGui.QApplication(sys.argv)
-    rospy.init_node('keyboardControl', anonymous=True)
 
-    # quit if a config file is not sent
+    # use defaut config if not sent
     if len(sys.argv) <= 1:
         config = 'configs/VSS_1on1_fr.yaml'
     else:
         config = sys.argv[1]
 
     w = Command_Window(config)
-    w.setWindowTitle('Keyboard Control')
+    w.setWindowTitle('Command')
     w.show()
 
     sys.exit(app.exec_())

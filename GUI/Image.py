@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import rospy, cv2, importlib
-import numpy as np
-
-from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
 
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+import sys
+
+import rospy
+from sensor_msgs.msg import Image
+
+import importlib
+import numpy as np
+
+import cv2
+from cv_bridge import CvBridge, CvBridgeError
 
 from lib.general_utils import get_yaml_dict
 
+# --------------------- #
 
 class Image_Window(QtGui.QWidget):
 
@@ -216,11 +222,21 @@ class Image_Window(QtGui.QWidget):
 	# 	if self.image_sub is not None:
 	# 		self.image_sub.unregister()
 	# 	event.accept()
+
+# --------------------- #
+
 if __name__ == '__main__':
-	import sys
-	rospy.init_node('image_show', anonymous=True)
+	rospy.init_node('Image', anonymous=True)
 	app = QtGui.QApplication(sys.argv)
-	w = Image_Window('configs/image_config_teste.yaml')
-	w.setWindowTitle('PyQT OpenCV')
+
+	# use defaut config if not sent
+	if len(sys.argv) <= 1:
+		config = 'configs/image_config_teste.yaml'
+	else:
+		config = sys.argv[1]
+
+	w = Image_Window(config)
+	w.setWindowTitle('Image')
 	w.show()
-	app.exec_()
+
+	sys.exit(app.exec_())

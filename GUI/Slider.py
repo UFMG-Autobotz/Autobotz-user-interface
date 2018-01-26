@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+import sys
+
 import rospy
 from std_msgs.msg import Float32
 
 import numpy as np
 
-from PyQt4 import QtCore
-from PyQt4 import QtGui
-
 from lib.general_utils import get_yaml_dict
 from lib.qt_utils import qt_Line
+
+# --------------------- #
 
 class Sliders_Window(QtGui.QWidget):
 	def __init__(self, configs_file, parent = None):
@@ -231,11 +234,20 @@ class Sliders_Window(QtGui.QWidget):
 
 		self.setLayout(layout)
 
+# --------------------- #
+
 if __name__ == '__main__':
-	rospy.init_node('teste_slider', anonymous=True)
-	import sys
+	rospy.init_node('Slider', anonymous=True)
 	app = QtGui.QApplication(sys.argv)
-	w = Sliders_Window('configs/slider_config_teste.yaml')
-	w.setWindowTitle('PyQT Slider')
+
+	# use defaut config if not sent
+	if len(sys.argv) <= 1:
+		config = 'configs/slider_config_teste.yaml'
+	else:
+		config = sys.argv[1]
+
+	w = Sliders_Window(config)
+	w.setWindowTitle('Slider')
 	w.show()
-	app.exec_()
+
+	sys.exit(app.exec_())
