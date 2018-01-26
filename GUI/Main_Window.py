@@ -6,7 +6,8 @@ from PyQt4 import QtGui
 from Slider import Sliders_Window
 from Graphs import Graphs_Window
 from Image import Image_Window
-from DockTitleBar import DockTitleBar
+from Command import Command_Window
+from lib.DockTitleBar import DockTitleBar
 
 class Main_Window(QtGui.QMainWindow):
 	def __init__(self, parent = None):
@@ -19,6 +20,7 @@ class Main_Window(QtGui.QMainWindow):
 		# self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
 
 		self.sliders_config_file = 'configs/slider_config_teste.yaml'
+		self.command_config_file = 'configs/VSS_1on1_fr.yaml'
 		self.graphs_config_file = 'configs/graph_config_teste.yaml'
 		self.image_config_file = 'configs/image_config_teste.yaml'
 
@@ -35,6 +37,11 @@ class Main_Window(QtGui.QMainWindow):
 		self.sliders_window.addAction("Nova aba")
 		self.sliders_window.triggered[QtGui.QAction].connect(self.sliders_action)
 		self.sliders_window.addAction("Set config")
+
+		self.command_window = self.tele_op.addMenu("Command")
+		self.command_window.addAction("Nova aba")
+		self.command_window.triggered[QtGui.QAction].connect(self.command_action)
+		self.command_window.addAction("Set config")
 
 		self.telemetry = self.my_menu.addMenu("Telemetry")
 
@@ -67,10 +74,30 @@ class Main_Window(QtGui.QMainWindow):
 		# if len(self.dockList) > 1:
 		# 	self.tabifyDockWidget(self.dockList[-2],self.dockList[-1])
 
+	def keyPressEvent(self, event):
+		if event.isAutoRepeat():
+			return
+		for subwindow in self.dockList:
+			print subwindow.widget
+			subwindow.widget().keyPressEvent(event)
+			event.accept()
+
+	def keyReleaseEvent(self, event):
+		if event.isAutoRepeat():
+			return
+		for subwindow in self.dockList:
+			subwindow.widget().keyReleaseEvent(event)
+			event.accept()
+
 	def sliders_action(self,q):
 		if q.text() == 'Nova aba':
 			self.new_Dock('Slider')
 			self.dockList[-1].setWidget(Sliders_Window(self.sliders_config_file, self.dockList[-1]))
+
+	def command_action(self,q):
+		if q.text() == 'Nova aba':
+			self.new_Dock('Command')
+			self.dockList[-1].setWidget(Command_Window(self.command_config_file, self.dockList[-1]))
 
 	def graph_Plotter_action(self,q):
 		if q.text() == 'Nova aba':
