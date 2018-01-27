@@ -143,6 +143,9 @@ class Graphs_Window(QtGui.QWidget):
 		# self.splitter.addWidget(self.graph_window)
 		# self.splitter.addWidget(label)
 
+	def mousePressEvent(self, event):
+		self.setFocus();
+
 # --------------------- #
 
 if __name__ == '__main__':

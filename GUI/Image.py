@@ -223,6 +223,9 @@ class Image_Window(QtGui.QWidget):
 	# 		self.image_sub.unregister()
 	# 	event.accept()
 
+	def mousePressEvent(self, event):
+		self.setFocus();
+
 # --------------------- #
 
 if __name__ == '__main__':

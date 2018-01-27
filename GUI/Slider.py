@@ -234,6 +234,9 @@ class Sliders_Window(QtGui.QWidget):
 
 		self.setLayout(layout)
 
+	def mousePressEvent(self, event):
+		self.setFocus();
+
 # --------------------- #
 
 if __name__ == '__main__':

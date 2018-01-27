@@ -67,6 +67,9 @@ class Command_Window(QtGui.QWidget):
             subwindow.keyReleaseEvent(event)
         event.accept()
 
+    def mousePressEvent(self, event):
+        self.setFocus();
+
 # --------------------- #
 
 if __name__ == '__main__':

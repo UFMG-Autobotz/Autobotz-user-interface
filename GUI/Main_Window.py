@@ -3,11 +3,19 @@
 
 from PyQt4 import QtCore
 from PyQt4 import QtGui
+import sys
+
+import rospy
+# from std_msgs.msg import Float32
+
 from Slider import Sliders_Window
 from Graphs import Graphs_Window
 from Image import Image_Window
 from Command import Command_Window
+
 from lib.DockTitleBar import DockTitleBar
+
+# --------------------- #
 
 class Main_Window(QtGui.QMainWindow):
 	def __init__(self, parent = None):
@@ -77,17 +85,25 @@ class Main_Window(QtGui.QMainWindow):
 	def keyPressEvent(self, event):
 		if event.isAutoRepeat():
 			return
-		for subwindow in self.dockList:
-			print subwindow.widget
-			subwindow.widget().keyPressEvent(event)
-			event.accept()
+		for tab in self.dockList:
+			try: # try except used to not raise error when looking for alread closed widget
+				# check it is the active tab
+				#(keyboard command can act umpredictably if it's allowed to be used when unfocused)
+				if tab.widget().hasFocus():
+					tab.widget().keyPressEvent(event)
+					event.accept()
+			except:
+				pass
 
 	def keyReleaseEvent(self, event):
 		if event.isAutoRepeat():
 			return
-		for subwindow in self.dockList:
-			subwindow.widget().keyReleaseEvent(event)
-			event.accept()
+		for tab in self.dockList:
+			try: # try except used to not raise error when looking for alread closed widget
+				tab.widget().keyReleaseEvent(event)
+				event.accept()
+			except:
+				pass
 
 	def sliders_action(self,q):
 		if q.text() == 'Nova aba':
@@ -109,10 +125,15 @@ class Main_Window(QtGui.QMainWindow):
 			self.new_Dock('Image')
 			self.dockList[-1].setWidget(Image_Window(self.image_config_file, self.dockList[-1]))
 
+# --------------------- #
+
 if __name__ == '__main__':
-	import sys
+	rospy.init_node("Autobotz_GUI", anonymous=True)
 	app = QtGui.QApplication(sys.argv)
+	app.setStyle("Plastique")
+
 	w = Main_Window()
-	w.setWindowTitle('PyQT Main Window')
+	w.setWindowTitle('Autobotz User Interface')
 	w.show()
-	app.exec_()
+
+	sys.exit(app.exec_())
