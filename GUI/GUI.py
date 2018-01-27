@@ -136,4 +136,6 @@ if __name__ == '__main__':
 	w.setWindowTitle('Autobotz User Interface')
 	w.show()
 
+	print "Autobotz User Interface running."
+
 	sys.exit(app.exec_())

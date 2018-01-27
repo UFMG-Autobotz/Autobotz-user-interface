@@ -93,4 +93,6 @@ if __name__ == '__main__':
     w.setWindowTitle('Command')
     w.show()
 
+    print "Command module from Autobotz User Interface running."
+
     sys.exit(app.exec_())

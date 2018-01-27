@@ -242,4 +242,6 @@ if __name__ == '__main__':
 	w.setWindowTitle('Image')
 	w.show()
 
+	print "Image module from Autobotz User Interface running."
+
 	sys.exit(app.exec_())

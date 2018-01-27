@@ -253,4 +253,6 @@ if __name__ == '__main__':
 	w.setWindowTitle('Slider')
 	w.show()
 
+	print "Slider module from Autobotz User Interface running."
+
 	sys.exit(app.exec_())

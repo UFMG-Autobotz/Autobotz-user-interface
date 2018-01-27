@@ -162,4 +162,6 @@ if __name__ == '__main__':
 	w.setWindowTitle('Graph')
 	w.show()
 
+	print "Graphs modlue from Autobotz User Interface running."
+
 	sys.exit(app.exec_())
