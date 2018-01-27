@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from PyQt4 import Qt
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 import sys
@@ -36,7 +37,6 @@ class Command_Window(QtGui.QWidget):
     def initUI(self, data):
         self.subWindows = []
         gamepadID = 0
-
         for robot in data['Robot']:
             if (robot['KeyConfig'] == 'gamepad'):
                 gamepad_subwindow = Gamepad(self, robot, gamepadID)
@@ -46,9 +46,11 @@ class Command_Window(QtGui.QWidget):
             else:
                 self.subWindows.append(Keyboard(self, robot))
 
-        layout=QtGui.QVBoxLayout(self)
+        self.layout=QtGui.QVBoxLayout(self)
         for subwindow in self.subWindows:
-            layout.addWidget(subwindow)
+            self.layout.addWidget(subwindow)
+
+        self.resize(300, len(data['Robot'])*130)
 
     def loadConfig(self, config):
         try:
