@@ -27,10 +27,10 @@ class Main_Window(QtGui.QMainWindow):
 		self.setDockOptions( QtGui.QMainWindow.AllowTabbedDocks )
 		# self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
 
-		self.sliders_config_file = 'configs/slider_config_teste.yaml'
-		self.command_config_file = 'configs/VSS_1on1_fr.yaml'
-		self.graphs_config_file = 'configs/graph_config_teste.yaml'
-		self.image_config_file = 'configs/image_config_teste.yaml'
+		self.sliders_config_file = './configs/slider_config_teste.yaml'
+		self.command_config_file = './configs/VSS_1on1_fr.yaml'
+		self.graphs_config_file = './configs/graph_config_teste.yaml'
+		self.image_config_file = './configs/image_config_teste.yaml'
 
 		self.my_menu = self.menuBar()
 
@@ -42,26 +42,26 @@ class Main_Window(QtGui.QMainWindow):
 		self.tele_op = self.my_menu.addMenu("Teleop")
 
 		self.sliders_window = self.tele_op.addMenu("Sliders")
-		self.sliders_window.addAction("Nova aba")
+		self.sliders_window.addAction("New tab")
+		self.sliders_window.addAction("Set config...")
 		self.sliders_window.triggered[QtGui.QAction].connect(self.sliders_action)
-		self.sliders_window.addAction("Set config")
 
 		self.command_window = self.tele_op.addMenu("Command")
-		self.command_window.addAction("Nova aba")
+		self.command_window.addAction("New tab")
+		self.command_window.addAction("Set config...")
 		self.command_window.triggered[QtGui.QAction].connect(self.command_action)
-		self.command_window.addAction("Set config")
 
 		self.telemetry = self.my_menu.addMenu("Telemetry")
 
 		self.graphs_window = self.telemetry.addMenu("Graph Plotter")
-		self.graphs_window.addAction("Nova aba")
+		self.graphs_window.addAction("New tab")
+		self.graphs_window.addAction("Set config...")
 		self.graphs_window.triggered[QtGui.QAction].connect(self.graph_Plotter_action)
-		self.graphs_window.addAction("Set config")
 
 		self.image_window = self.telemetry.addMenu("Image Viewer")
-		self.image_window.addAction("Nova aba")
+		self.image_window.addAction("New tab")
+		self.image_window.addAction("Set config...")
 		self.image_window.triggered[QtGui.QAction].connect(self.image_Viewer_action)
-		self.image_window.addAction("Set config")
 
 		self.dockList = []
 		self.dockTitleList = []
@@ -106,22 +106,38 @@ class Main_Window(QtGui.QMainWindow):
 				pass
 
 	def sliders_action(self,q):
-		if q.text() == 'Nova aba':
+		if q.text() == 'Set config...':
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.sliders_config_file)
+			if config_file:
+				self.sliders_config_file = config_file
+		elif q.text() == 'New tab' and self.sliders_config_file:
 			self.new_Dock('Slider')
 			self.dockList[-1].setWidget(Sliders_Window(self.sliders_config_file, self.dockList[-1]))
 
 	def command_action(self,q):
-		if q.text() == 'Nova aba':
+		if q.text() == 'Set config...':
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.command_config_file)
+			if config_file:
+				self.command_config_file = config_file
+		elif q.text() == 'New tab' and self.command_config_file:
 			self.new_Dock('Command')
 			self.dockList[-1].setWidget(Command_Window(self.command_config_file, self.dockList[-1]))
 
 	def graph_Plotter_action(self,q):
-		if q.text() == 'Nova aba':
+		if q.text() == 'Set config...':
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.graphs_config_file)
+			if config_file:
+				self.graphs_config_file = config_file
+		elif q.text() == 'New tab' and self.graphs_config_file:
 			self.new_Dock('Graph')
 			self.dockList[-1].setWidget(Graphs_Window(self.graphs_config_file, self.dockList[-1]))
 
 	def image_Viewer_action(self,q):
-		if q.text() == 'Nova aba':
+		if q.text() == 'Set config...':
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.image_config_file)
+			if config_file:
+				self.image_config_file = config_file
+		elif q.text() == 'New tab' and self.image_config_file:
 			self.new_Dock('Image')
 			self.dockList[-1].setWidget(Image_Window(self.image_config_file, self.dockList[-1]))
 
