@@ -1,5 +1,5 @@
-GUI/lib/*.pyc
-GUI/*.pyc
+lib/*.pyc
+*.pyc
 
 Keyboard_Command/MainWindow.pyc
 Keyboard_Command/SubWindow.pyc
