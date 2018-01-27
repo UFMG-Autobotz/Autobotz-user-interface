@@ -30,20 +30,25 @@ class calcVelocityGamepad(QtCore.QThread):
 class Command_Window(QtGui.QWidget):
     def __init__(self, config, parent = None):
         super(Command_Window, self).__init__()
-        data = self.loadConfig(config)
-        self.subWindows = []
-        i = gamepadID = 0
         self.calcVelocityGamepadThreads = []
+        self.initUI(self.loadConfig(config))
+
+    def initUI(self, data):
+        self.subWindows = []
+        gamepadID = 0
+
         for robot in data['Robot']:
             if (robot['KeyConfig'] == 'gamepad'):
-                self.subWindows.append(Gamepad(self, robot, gamepadID))
-                self.calcVelocityGamepadThreads.append(calcVelocityGamepad(self.subWindows[i]))
+                gamepad_subwindow = Gamepad(self, robot, gamepadID)
+                self.subWindows.append(gamepad_subwindow)
+                self.calcVelocityGamepadThreads.append(calcVelocityGamepad(gamepad_subwindow))
                 gamepadID += 1
             else:
                 self.subWindows.append(Keyboard(self, robot))
-            i += 1
-        for idx, subwindow in enumerate(self.subWindows):
-            subwindow.move(5, 5 + (subwindow.size().height()+25)*idx)
+
+        layout=QtGui.QVBoxLayout(self)
+        for subwindow in self.subWindows:
+            layout.addWidget(subwindow)
 
     def loadConfig(self, config):
         try:
