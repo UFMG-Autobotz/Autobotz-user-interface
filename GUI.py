@@ -114,42 +114,6 @@ class Main_Window(QtGui.QMainWindow):
 				self.new_Dock('Image viewer')
 				self.dockList[-1].setWidget(Image_Window(self.image_config_file, self.dockList[-1]))
 
-	# def slider_action(self,q):
-	# 	if q.text() == 'Set config...':
-	# 		config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.slider_config_file)
-	# 		if config_file:
-	# 			self.slider_config_file = config_file
-	# 	elif q.text() == 'New tab' and self.slider_config_file:
-	# 		self.new_Dock('Slider control')
-	# 		self.dockList[-1].setWidget(Slider_Window(self.slider_config_file, self.dockList[-1]))
-    #
-	# def device_action(self,q):
-	# 	if q.text() == 'Set config...':
-	# 		config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.device_config_file)
-	# 		if config_file:
-	# 			self.device_config_file = config_file
-	# 	elif q.text() == 'New tab' and self.device_config_file:
-	# 		self.new_Dock('Device input')
-	# 		self.dockList[-1].setWidget(Device_Window(self.device_config_file, self.dockList[-1]))
-    #
-	# def graph_Plotter_action(self,q):
-	# 	if q.text() == 'Set config...':
-	# 		config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.graph_config_file)
-	# 		if config_file:
-	# 			self.graph_config_file = config_file
-	# 	elif q.text() == 'New tab' and self.graph_config_file:
-	# 		self.new_Dock('Graph plotter')
-	# 		self.dockList[-1].setWidget(Graph_Window(self.graph_config_file, self.dockList[-1]))
-    #
-	# def image_Viewer_action(self,q):
-	# 	if q.text() == 'Set config...':
-	# 		config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.image_config_file)
-	# 		if config_file:
-	# 			self.image_config_file = config_file
-	# 	elif q.text() == 'New tab' and self.image_config_file:
-	# 		self.new_Dock('Image viewer')
-	# 		self.dockList[-1].setWidget(Image_Window(self.image_config_file, self.dockList[-1]))
-
 # --------------------- #
 
 if __name__ == '__main__':
