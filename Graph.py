@@ -154,7 +154,7 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = 'config/graph_config_teste.yaml'
+		config = './config/Graph/GENERIC_default.yaml'
 	else:
 		config = sys.argv[1]
 

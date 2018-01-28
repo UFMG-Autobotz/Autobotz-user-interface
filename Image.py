@@ -234,7 +234,7 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = 'config/image_config_teste.yaml'
+		config = './config/Image/GENERIC_sample.yaml'
 	else:
 		config = sys.argv[1]
 

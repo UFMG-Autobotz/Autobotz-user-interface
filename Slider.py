@@ -245,11 +245,11 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = 'config/slider_config_teste.yaml'
+		config = './config/Slider/VT_default.yaml'
 	else:
 		config = sys.argv[1]
 
-	w = Sliders_Window(config)
+	w = Slider_Window(config)
 	w.setWindowTitle('Slider')
 	w.show()
 

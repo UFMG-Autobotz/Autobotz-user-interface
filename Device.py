@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     # use defaut config if not sent
     if len(sys.argv) <= 1:
-        config_file = 'config/VSS_1on1_fr.yaml'
+        config_file = './config/Device/VSS_1on1_keyboard.yaml'
     else:
         config_file = sys.argv[1]
 
