@@ -1,6 +1,2 @@
 lib/*.pyc
 *.pyc
-
-Keyboard_Command/MainWindow.pyc
-Keyboard_Command/SubWindow.pyc
-Keyboard_Command/SubWindowGamepad.pyc
