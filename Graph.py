@@ -13,11 +13,11 @@ from lib.RTPlotter import RTPlotter
 
 # --------------------- #
 
-class Graphs_Window(QtGui.QWidget):
-	def __init__(self, configs_file, parent = None):
-		super(Graphs_Window, self).__init__(parent)
+class Graph_Window(QtGui.QWidget):
+	def __init__(self, config_file, parent = None):
+		super(Graph_Window, self).__init__(parent)
 		self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-		self.configs_file = configs_file
+		self.config_file = config_file
 		self.subs = [[]]
 		self.update_topics()
 		self.create_window()
@@ -63,7 +63,7 @@ class Graphs_Window(QtGui.QWidget):
 					for j in range(len(self.subs[i])):
 						self.subs[i][j].unregister()
 		self.subs = [[]]
-		self.graph_specs = get_yaml_dict(self.configs_file)
+		self.graph_specs = get_yaml_dict(self.config_file)
 		self.graph_specs =  {k.lower(): v for k, v in self.graph_specs.items() if v is not None}
 		self.graph_specs['dims'] = self.dims
 		self.graph_specs['parent'] = self
@@ -154,14 +154,14 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = 'configs/graph_config_teste.yaml'
+		config = 'config/graph_config_teste.yaml'
 	else:
 		config = sys.argv[1]
 
-	w = Graphs_Window(config)
+	w = Graph_Window(config)
 	w.setWindowTitle('Graph')
 	w.show()
 
-	print "Graphs modlue from Autobotz User Interface running."
+	print "Graph module from Autobotz User Interface running."
 
 	sys.exit(app.exec_())

@@ -28,11 +28,11 @@ class calcVelocityGamepad(QtCore.QThread):
 
 # --------------------- #
 
-class Command_Window(QtGui.QWidget):
-    def __init__(self, config, parent = None):
-        super(Command_Window, self).__init__()
+class Device_Window(QtGui.QWidget):
+    def __init__(self, config_file, parent = None):
+        super(Device_Window, self).__init__()
         self.calcVelocityGamepadThreads = []
-        self.initUI(self.loadConfig(config))
+        self.initUI(self.loadConfig(config_file))
 
     def initUI(self, data):
         self.subWindows = []
@@ -52,9 +52,9 @@ class Command_Window(QtGui.QWidget):
 
         self.resize(300, len(data['Robot'])*130)
 
-    def loadConfig(self, config):
+    def loadConfig(self, config_file):
         try:
-            with open(config, 'r') as f:
+            with open(config_file, 'r') as f:
                 return yaml.load(f)
         except:
             print "Error: Invalid configuration file!"
@@ -80,19 +80,19 @@ class Command_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
-    rospy.init_node('Command', anonymous=True)
+    rospy.init_node('Device', anonymous=True)
     app = QtGui.QApplication(sys.argv)
 
     # use defaut config if not sent
     if len(sys.argv) <= 1:
-        config = 'configs/VSS_1on1_fr.yaml'
+        config_file = 'config/VSS_1on1_fr.yaml'
     else:
-        config = sys.argv[1]
+        config_file = sys.argv[1]
 
-    w = Command_Window(config)
-    w.setWindowTitle('Command')
+    w = Device_Window(config_file)
+    w.setWindowTitle('Device')
     w.show()
 
-    print "Command module from Autobotz User Interface running."
+    print "Device module from Autobotz User Interface running."
 
     sys.exit(app.exec_())

@@ -8,10 +8,10 @@ import sys
 import rospy
 # from std_msgs.msg import Float32
 
-from Slider import Sliders_Window
-from Graphs import Graphs_Window
+from Slider import Slider_Window
+from Graph import Graph_Window
 from Image import Image_Window
-from Command import Command_Window
+from Device import Device_Window
 
 from lib.DockTitleBar import DockTitleBar
 
@@ -27,10 +27,10 @@ class Main_Window(QtGui.QMainWindow):
 		self.setDockOptions( QtGui.QMainWindow.AllowTabbedDocks )
 		# self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
 
-		self.sliders_config_file = './configs/slider_config_teste.yaml'
-		self.command_config_file = './configs/VSS_1on1_fr.yaml'
-		self.graphs_config_file = './configs/graph_config_teste.yaml'
-		self.image_config_file = './configs/image_config_teste.yaml'
+		self.slider_config_file = './config/Slider/VT_default.yaml'
+		self.device_config_file = './config/Device/VSS_1on1_keyboard.yaml'
+		self.graph_config_file = './config/Graph/GENERIC_default.yaml'
+		self.image_config_file = './config/Image/GENERIC_sample.yaml'
 
 		self.my_menu = self.menuBar()
 
@@ -41,24 +41,24 @@ class Main_Window(QtGui.QMainWindow):
 
 		self.tele_op = self.my_menu.addMenu("Teleop")
 
-		self.sliders_window = self.tele_op.addMenu("Sliders")
-		self.sliders_window.addAction("New tab")
-		self.sliders_window.addAction("Set config...")
-		self.sliders_window.triggered[QtGui.QAction].connect(self.sliders_action)
+		self.slider_window = self.tele_op.addMenu("Slider control")
+		self.slider_window.addAction("New tab")
+		self.slider_window.addAction("Set config...")
+		self.slider_window.triggered[QtGui.QAction].connect(self.slider_action)
 
-		self.command_window = self.tele_op.addMenu("Command")
-		self.command_window.addAction("New tab")
-		self.command_window.addAction("Set config...")
-		self.command_window.triggered[QtGui.QAction].connect(self.command_action)
+		self.device_window = self.tele_op.addMenu("Device input")
+		self.device_window.addAction("New tab")
+		self.device_window.addAction("Set config...")
+		self.device_window.triggered[QtGui.QAction].connect(self.device_action)
 
 		self.telemetry = self.my_menu.addMenu("Telemetry")
 
-		self.graphs_window = self.telemetry.addMenu("Graph Plotter")
-		self.graphs_window.addAction("New tab")
-		self.graphs_window.addAction("Set config...")
-		self.graphs_window.triggered[QtGui.QAction].connect(self.graph_Plotter_action)
+		self.graph_window = self.telemetry.addMenu("Graph plotter")
+		self.graph_window.addAction("New tab")
+		self.graph_window.addAction("Set config...")
+		self.graph_window.triggered[QtGui.QAction].connect(self.graph_Plotter_action)
 
-		self.image_window = self.telemetry.addMenu("Image Viewer")
+		self.image_window = self.telemetry.addMenu("Image viewer")
 		self.image_window.addAction("New tab")
 		self.image_window.addAction("Set config...")
 		self.image_window.triggered[QtGui.QAction].connect(self.image_Viewer_action)
@@ -88,7 +88,7 @@ class Main_Window(QtGui.QMainWindow):
 		for tab in self.dockList:
 			try: # try except used to not raise error when looking for alread closed widget
 				# check it is the active tab
-				#(keyboard command can act umpredictably if it's allowed to be used when unfocused)
+				#(keyboard device can act umpredictably if it's allowed to be used when unfocused)
 				if tab.widget().hasFocus():
 					tab.widget().keyPressEvent(event)
 					event.accept()
@@ -105,32 +105,32 @@ class Main_Window(QtGui.QMainWindow):
 			except:
 				pass
 
-	def sliders_action(self,q):
+	def slider_action(self,q):
 		if q.text() == 'Set config...':
-			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.sliders_config_file)
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.slider_config_file)
 			if config_file:
-				self.sliders_config_file = config_file
-		elif q.text() == 'New tab' and self.sliders_config_file:
-			self.new_Dock('Slider')
-			self.dockList[-1].setWidget(Sliders_Window(self.sliders_config_file, self.dockList[-1]))
+				self.slider_config_file = config_file
+		elif q.text() == 'New tab' and self.slider_config_file:
+			self.new_Dock('Slider control')
+			self.dockList[-1].setWidget(Slider_Window(self.slider_config_file, self.dockList[-1]))
 
-	def command_action(self,q):
+	def device_action(self,q):
 		if q.text() == 'Set config...':
-			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.command_config_file)
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.device_config_file)
 			if config_file:
-				self.command_config_file = config_file
-		elif q.text() == 'New tab' and self.command_config_file:
-			self.new_Dock('Command')
-			self.dockList[-1].setWidget(Command_Window(self.command_config_file, self.dockList[-1]))
+				self.device_config_file = config_file
+		elif q.text() == 'New tab' and self.device_config_file:
+			self.new_Dock('Device input')
+			self.dockList[-1].setWidget(Device_Window(self.device_config_file, self.dockList[-1]))
 
 	def graph_Plotter_action(self,q):
 		if q.text() == 'Set config...':
-			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.graphs_config_file)
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.graph_config_file)
 			if config_file:
-				self.graphs_config_file = config_file
-		elif q.text() == 'New tab' and self.graphs_config_file:
-			self.new_Dock('Graph')
-			self.dockList[-1].setWidget(Graphs_Window(self.graphs_config_file, self.dockList[-1]))
+				self.graph_config_file = config_file
+		elif q.text() == 'New tab' and self.graph_config_file:
+			self.new_Dock('Graph plotter')
+			self.dockList[-1].setWidget(Graph_Window(self.graph_config_file, self.dockList[-1]))
 
 	def image_Viewer_action(self,q):
 		if q.text() == 'Set config...':
@@ -138,7 +138,7 @@ class Main_Window(QtGui.QMainWindow):
 			if config_file:
 				self.image_config_file = config_file
 		elif q.text() == 'New tab' and self.image_config_file:
-			self.new_Dock('Image')
+			self.new_Dock('Image viewer')
 			self.dockList[-1].setWidget(Image_Window(self.image_config_file, self.dockList[-1]))
 
 # --------------------- #

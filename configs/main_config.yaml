@@ -1,9 +1,0 @@
-Path: "/home/rodrigo/Dropbox/Autobotz/slack/Gaz_plug/Controller/Plugin_GUI/better/configs"
-Controller:
-  slider: "Controller/slider_config.yaml"
-  joystick: "joystick_config.yaml"
-  autonomous: "autonomous_config.yaml"
-Graphs:
-  default: "Graphs/default_config.yaml"
-Image:
-  default: "Image/default_config.yaml"

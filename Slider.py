@@ -15,11 +15,11 @@ from lib.qt_utils import qt_Line
 
 # --------------------- #
 
-class Sliders_Window(QtGui.QWidget):
-	def __init__(self, configs_file, parent = None):
-		super(Sliders_Window, self).__init__(parent)
+class Slider_Window(QtGui.QWidget):
+	def __init__(self, config_file, parent = None):
+		super(Slider_Window, self).__init__(parent)
 		self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-		specs = get_yaml_dict(configs_file)
+		specs = get_yaml_dict(config_file)
 		self.init_groups(specs)
 		self.create_window()
 
@@ -245,7 +245,7 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = 'configs/slider_config_teste.yaml'
+		config = 'config/slider_config_teste.yaml'
 	else:
 		config = sys.argv[1]
 

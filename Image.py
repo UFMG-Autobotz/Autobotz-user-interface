@@ -22,11 +22,11 @@ class Image_Window(QtGui.QWidget):
 
 	img_ready = QtCore.pyqtSignal()
 
-	def __init__(self, configs_file, parent = None):
+	def __init__(self, config_file, parent = None):
 		super(Image_Window, self).__init__(parent)
 		self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-		self.configs_file = configs_file
-		self.im_specs = get_yaml_dict(self.configs_file)
+		self.config_file = config_file
+		self.im_specs = get_yaml_dict(self.config_file)
 		Vision_class = getattr(importlib.import_module(self.im_specs['vision_file']), self.im_specs['vision_class'])
 		self.vision_obj = Vision_class()
 		self.func_avaiable_list = self.vision_obj.get_functions_nicks()
@@ -234,7 +234,7 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = 'configs/image_config_teste.yaml'
+		config = 'config/image_config_teste.yaml'
 	else:
 		config = sys.argv[1]
 

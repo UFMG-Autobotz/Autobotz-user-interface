@@ -1,0 +1,22 @@
+# Caso algum seja null, um valor padrao sera atribuido no codigo
+Colors:
+- [255, 255, 255] # white
+- [0, 255, 255] # green
+- [0, 0, 255] # blue
+- [255, 255, 255] # white
+- [0, 255, 0] # green
+- [0, 0, 255] # blue
+- [0, 255, 255] # cyan
+- [0, 255, 255] # cyan
+- [255, 0, 155] # pink
+- [100, 255, 0] # lawn green
+- [100, 100, 100] # gray
+- [0, 255, 255] # cyan
+- [255, 0, 155] # pink
+- [100, 255, 0] # lawn green
+- [100, 100, 100] # gray
+Labels: null
+Limits: null
+SampleInterval: 0.01
+TimeWindow: 10
+Title: 'My Graph'
