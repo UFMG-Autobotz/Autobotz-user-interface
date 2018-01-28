@@ -10,9 +10,9 @@ import numpy as np
 import rospy
 from std_msgs.msg import Float32
 
-from lib.command_subwindow import Command_Subwindow
+from lib.device_subwindow import Device_Subwindow
 
-class Gamepad(Command_Subwindow):
+class Gamepad(Device_Subwindow):
     def __init__(self, parent, data, joystickNumber):
         super(Gamepad, self).__init__(parent, data)
         self.keys = np.array([0, 0])

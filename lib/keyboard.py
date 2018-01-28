@@ -8,9 +8,9 @@ import numpy as np
 import rospy
 from std_msgs.msg import Float32
 
-from lib.command_subwindow import Command_Subwindow
+from lib.device_subwindow import Device_Subwindow
 
-class Keyboard(Command_Subwindow):
+class Keyboard(Device_Subwindow):
     def __init__(self, parent, data):
         super(Keyboard, self).__init__(parent, data)
         self.keys = np.array([0, 0, 0, 0]) # [up, down, left, rigth], 1 when pressed
