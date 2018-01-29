@@ -13,6 +13,7 @@ import pygame
 
 from lib.keyboard import Keyboard
 from lib.gamepad import Gamepad
+from lib.general_utils import get_yaml_dict
 
 # --------------------- #
 
@@ -32,7 +33,7 @@ class Drive_Window(QtGui.QWidget):
     def __init__(self, config_file, parent = None):
         super(Drive_Window, self).__init__()
         self.calcVelocityGamepadThreads = []
-        self.initUI(self.loadConfig(config_file))
+        self.initUI(get_yaml_dict(config_file))
 
     def initUI(self, data):
         self.subWindows = []
@@ -51,14 +52,6 @@ class Drive_Window(QtGui.QWidget):
             self.layout.addWidget(subwindow)
 
         self.resize(300, len(data['Robot'])*130)
-
-    def loadConfig(self, config_file):
-        try:
-            with open(config_file, 'r') as f:
-                return yaml.load(f)
-        except:
-            print "Error: Invalid configuration file!"
-            quit()
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():

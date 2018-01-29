@@ -8,7 +8,7 @@ import sys
 import rospy
 from std_msgs.msg import Float32
 
-from lib.general_utils import get_yaml_dict
+from lib.general_utils import get_yaml_dict, check_file
 from lib.RTPlotter import RTPlotter
 
 # --------------------- #
@@ -17,7 +17,7 @@ class Graph_Window(QtGui.QWidget):
 	def __init__(self, config_file, parent = None):
 		super(Graph_Window, self).__init__(parent)
 		self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-		self.config_file = config_file
+		self.config_file = check_file(config_file)
 		self.subs = [[]]
 		self.update_topics()
 		self.create_window()

@@ -17,18 +17,21 @@ def reverse_enumerate(iterable):
 	return itertools.izip(reversed(xrange(len(iterable))), reversed(iterable))
 
 
-def get_dict_from_file(filename, handler):
-	# print 'Using file', filename
+def check_file(filename):
 	if os.path.isfile(filename):
-		with open(filename) as f:
-			dic = handler.load(f)
-			f.close()
-		return dic
+		return filename
 	else:
-		print_error_msg('File dos not exist!')
-		return {}
+		print "Error: Invalid configuration file!"
+		quit()
+
+def get_dict_from_file(filename, handler):
+	with open(filename) as f:
+		dic = handler.load(f)
+		f.close()
+	return dic
 
 def get_yaml_dict(filename):
+	check_file(filename)
 	return get_dict_from_file(filename, yaml)
 
 def get_json_dict(filename):
@@ -58,7 +61,7 @@ def pprint_var(var, name=None, tab=0):
 def fillEmptyArgs(var, configMap):
 	for param in configMap:
 		if not(hasattr(args, param)):
-			var.__dict__[param] = configMap[param] 
+			var.__dict__[param] = configMap[param]
 		elif var.__dict__[param] is None:
 			var.__dict__[param] = configMap[param]
 

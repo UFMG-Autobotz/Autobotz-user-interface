@@ -14,7 +14,7 @@ import numpy as np
 import cv2
 from cv_bridge import CvBridge, CvBridgeError
 
-from lib.general_utils import get_yaml_dict
+from lib.general_utils import get_yaml_dict, check_file
 
 # --------------------- #
 
@@ -25,7 +25,7 @@ class Image_Window(QtGui.QWidget):
 	def __init__(self, config_file, parent = None):
 		super(Image_Window, self).__init__(parent)
 		self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-		self.config_file = config_file
+		self.config_file = check_file(config_file)
 		self.im_specs = get_yaml_dict(self.config_file)
 		Vision_class = getattr(importlib.import_module(self.im_specs['vision_file']), self.im_specs['vision_class'])
 		self.vision_obj = Vision_class()
