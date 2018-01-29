@@ -154,11 +154,13 @@ if __name__ == '__main__':
 
 	# use defaut config if not sent
 	if len(sys.argv) <= 1:
-		config = './config/Graph/GENERIC_default.yaml'
+		config_file = './config/Graph/GENERIC_default.yaml'
+	elif len(sys.argv) <= 2:
+		config_file = './config/Graph/' + sys.argv[1]
 	else:
-		config = sys.argv[1]
+		config_file = sys.argv[2] + sys.argv[1]
 
-	w = Graph_Window(config)
+	w = Graph_Window(config_file)
 	w.setWindowTitle('Graph')
 	w.show()
 
