@@ -28,9 +28,9 @@ class calcVelocityGamepad(QtCore.QThread):
 
 # --------------------- #
 
-class Device_Window(QtGui.QWidget):
+class Drive_Window(QtGui.QWidget):
     def __init__(self, config_file, parent = None):
-        super(Device_Window, self).__init__()
+        super(Drive_Window, self).__init__()
         self.calcVelocityGamepadThreads = []
         self.initUI(self.loadConfig(config_file))
 
@@ -80,21 +80,21 @@ class Device_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
-    rospy.init_node('Device', anonymous=True)
+    rospy.init_node('Drive', anonymous=True)
     app = QtGui.QApplication(sys.argv)
 
     # use defaut config if not sent
     if len(sys.argv) <= 1:
-        config_file = './config/Device/VSS_1on1_keyboard.yaml'
+        config_file = './config/Drive/VSS_1on1_keyboard.yaml'
     elif len(sys.argv) <= 2:
-        config_file = './config/Device/' + sys.argv[1]
+        config_file = './config/Drive/' + sys.argv[1]
     else:
         config_file = sys.argv[2] + sys.argv[1]
 
-    w = Device_Window(config_file)
-    w.setWindowTitle('Device')
+    w = Drive_Window(config_file)
+    w.setWindowTitle('Drive')
     w.show()
 
-    print "Device module from Autobotz User Interface running."
+    print "Drive module from Autobotz User Interface running."
 
     sys.exit(app.exec_())

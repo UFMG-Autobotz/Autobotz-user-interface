@@ -11,7 +11,7 @@ import rospy
 from Slider import Slider_Window
 from Graph import Graph_Window
 from Image import Image_Window
-from Device import Device_Window
+from Drive import Drive_Window
 
 from lib.DockTitleBar import DockTitleBar
 
@@ -28,7 +28,7 @@ class Main_Window(QtGui.QMainWindow):
 		# self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
 
 		self.slider_config_file = './config/Slider/VT_default.yaml'
-		self.device_config_file = './config/Device/VSS_1on1_keyboard.yaml'
+		self.drive_config_file = './config/Drive/VSS_1on1_keyboard.yaml'
 		self.graph_config_file = './config/Graph/GENERIC_default.yaml'
 		self.image_config_file = './config/Image/GENERIC_sample.yaml'
 
@@ -36,7 +36,7 @@ class Main_Window(QtGui.QMainWindow):
 
 		self.teleoperation = self.my_menu.addMenu('Teleoperation')
 		self.teleoperation.addAction('Slider control...')
-		self.teleoperation.addAction('Device input...')
+		self.teleoperation.addAction('Differential drive...')
 		self.teleoperation.triggered[QtGui.QAction].connect(self.teleoperation_action)
 
 		self.telemetry = self.my_menu.addMenu('Telemetry')
@@ -69,7 +69,7 @@ class Main_Window(QtGui.QMainWindow):
 		for tab in self.dockList:
 			try: # try except used to not raise error when looking for alread closed widget
 				# check it is the active tab
-				#(keyboard device can act umpredictably if it's allowed to be used when unfocused)
+				#(keyboard drive can act umpredictably if it's allowed to be used when unfocused)
 				if tab.widget().hasFocus():
 					tab.widget().keyPressEvent(event)
 					event.accept()
@@ -93,12 +93,12 @@ class Main_Window(QtGui.QMainWindow):
 				self.slider_config_file = config_file
 				self.new_Dock('Slider control')
 				self.dockList[-1].setWidget(Slider_Window(self.slider_config_file, self.dockList[-1]))
-		elif q.text() == 'Device input...':
-			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.device_config_file)
+		elif q.text() == 'Differential drive...':
+			config_file = QtGui.QFileDialog.getOpenFileName(w, 'Choose config file', self.drive_config_file)
 			if config_file:
-				self.device_config_file = config_file
-				self.new_Dock('Device input')
-				self.dockList[-1].setWidget(Device_Window(self.device_config_file, self.dockList[-1]))
+				self.drive_config_file = config_file
+				self.new_Dock('Differential drive')
+				self.dockList[-1].setWidget(Drive_Window(self.drive_config_file, self.dockList[-1]))
 
 	def telemetry_action(self,q):
 		if q.text() == 'Graph plotter...':

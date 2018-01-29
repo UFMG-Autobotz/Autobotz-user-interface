@@ -6,9 +6,9 @@ from PyQt4 import QtCore
 import rospy
 from std_msgs.msg import Float32
 
-class Device_Subwindow(QtGui.QWidget):
+class Drive_Subwindow(QtGui.QWidget):
     def __init__(self, parent, data):
-        super(Device_Subwindow, self).__init__(parent)
+        super(Drive_Subwindow, self).__init__(parent)
         self.config(data)
         self.velR = self.velL = 0.0
 
