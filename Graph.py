@@ -8,7 +8,7 @@ import sys
 import rospy
 from std_msgs.msg import Float32
 
-from lib.general_utils import get_yaml_dict, check_file
+from lib.general_utils import get_yaml_dict, check_file, check_arguments
 from lib.RTPlotter import RTPlotter
 
 # --------------------- #
@@ -149,6 +149,8 @@ class Graph_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
+	check_arguments(sys.argv, 'Graph') # check for special arguments:
+
 	rospy.init_node('Graph', anonymous=True)
 	app = QtGui.QApplication(sys.argv)
 

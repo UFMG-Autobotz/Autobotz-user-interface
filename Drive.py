@@ -10,10 +10,11 @@ import rospy
 
 import yaml
 import pygame
+import os
 
 from lib.keyboard import Keyboard
 from lib.gamepad import Gamepad
-from lib.general_utils import get_yaml_dict
+from lib.general_utils import get_yaml_dict, check_arguments
 
 # --------------------- #
 
@@ -73,6 +74,8 @@ class Drive_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
+    check_arguments(sys.argv, 'Drive') # check for spetial arguments:
+
     rospy.init_node('Drive', anonymous=True)
     app = QtGui.QApplication(sys.argv)
 

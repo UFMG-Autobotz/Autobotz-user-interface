@@ -7,21 +7,20 @@ def get_date_str():
 	return str(datetime.now()).replace(' ', '_').replace(':', '.')[:-10]
 
 def print_error_msg(msg):
-	print '\n'*3
-	print '-'*30
+	print '\n'
+	print '-'*60
 	print msg
-	print '-'*30
-	print '\n'*3
+	print '-'*60
+	print '\n'
 
 def reverse_enumerate(iterable):
 	return itertools.izip(reversed(xrange(len(iterable))), reversed(iterable))
-
 
 def check_file(filename):
 	if os.path.isfile(filename):
 		return filename
 	else:
-		print "Error: Invalid configuration file!"
+		print_error_msg("Error: Invalid configuration file!")
 		quit()
 
 def get_dict_from_file(filename, handler):
@@ -86,3 +85,18 @@ def save_yaml_dict(dic, filename):
 	with open(filename, 'w') as f:
 		yaml.dump(dic, f)
 		f.close()
+
+def check_arguments(argv, module):
+	if len(argv) == 2:
+		if argv[1] == "list":
+			directory = './config/{}/'.format(module.title())
+			list = os.listdir(directory)
+			print "Available configuration files for module " + module + ":"
+			print "\t" + "\n\t".join(list)
+			quit()
+		elif argv[1] == "help":
+			help_file = "./lib/help/{}.help".format(module.lower())
+			with open(help_file) as f:
+				print f.read()
+				f.close()
+			quit()

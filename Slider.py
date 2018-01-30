@@ -10,7 +10,7 @@ from std_msgs.msg import Float32
 
 import numpy as np
 
-from lib.general_utils import get_yaml_dict
+from lib.general_utils import get_yaml_dict, check_arguments
 from lib.qt_utils import qt_Line
 
 # --------------------- #
@@ -240,6 +240,8 @@ class Slider_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
+	check_arguments(sys.argv, 'Slider') # check for spetial arguments:
+
 	rospy.init_node('Slider', anonymous=True)
 	app = QtGui.QApplication(sys.argv)
 

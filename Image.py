@@ -14,7 +14,7 @@ import numpy as np
 import cv2
 from cv_bridge import CvBridge, CvBridgeError
 
-from lib.general_utils import get_yaml_dict, check_file
+from lib.general_utils import get_yaml_dict, check_file, check_arguments
 
 # --------------------- #
 
@@ -229,6 +229,8 @@ class Image_Window(QtGui.QWidget):
 # --------------------- #
 
 if __name__ == '__main__':
+	check_arguments(sys.argv, 'Image') # check for special arguments:
+
 	rospy.init_node('Image', anonymous=True)
 	app = QtGui.QApplication(sys.argv)
 
