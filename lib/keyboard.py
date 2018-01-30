@@ -5,9 +5,6 @@ from PyQt4 import QtCore
 
 import numpy as np
 
-import rospy
-from std_msgs.msg import Float32
-
 from lib.drive_subwindow import Drive_Subwindow
 
 class Keyboard(Drive_Subwindow):

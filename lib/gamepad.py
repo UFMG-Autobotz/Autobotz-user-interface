@@ -7,9 +7,6 @@ import pygame
 
 import numpy as np
 
-import rospy
-from std_msgs.msg import Float32
-
 from lib.drive_subwindow import Drive_Subwindow
 
 class Gamepad(Drive_Subwindow):

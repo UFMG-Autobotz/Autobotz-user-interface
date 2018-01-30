@@ -4,7 +4,7 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 
 class Drive_Subwindow(QtGui.QWidget):
     def __init__(self, parent, data):
@@ -23,10 +23,10 @@ class Drive_Subwindow(QtGui.QWidget):
     def initROS(self, data):
         self.pubL = []
         for topic in data['Left']:
-            self.pubL.append(rospy.Publisher(topic, Float32, queue_size = 100))
+            self.pubL.append(rospy.Publisher(topic, Float64, queue_size = 100))
         self.pubR = []
         for topic in data['Right']:
-            self.pubR.append(rospy.Publisher(topic, Float32, queue_size = 100))
+            self.pubR.append(rospy.Publisher(topic, Float64, queue_size = 100))
 
     # initialie interface elements (called from constructor)
     def initUI(self):

@@ -6,7 +6,7 @@ from PyQt4 import QtGui
 import sys
 
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 
 from lib.general_utils import get_yaml_dict, check_file, check_arguments
 from lib.RTPlotter import RTPlotter
@@ -45,6 +45,7 @@ class Graph_Window(QtGui.QWidget):
 		label_choice = [['Y'], ['X', 'Y'], ['X', 'Y', 'Z']][n_cb-1]
 		for i in xrange(n_cb):
 			new_cb = QtGui.QComboBox()
+			new_cb.setEditable(True)
 			for topic in self.active_topics:
 				new_cb.addItem( topic[0] )
 			new_cb.highlighted.connect(self.highlighted_update)
@@ -85,7 +86,7 @@ class Graph_Window(QtGui.QWidget):
 		for i in range(self.dims):
 			sub_name = str(self.cb[self.dims-1][i].currentText())
 			n_curve = self.graph_window.n_curves -1
-			self.subs[-1].append(rospy.Subscriber(sub_name, Float32, lambda data, dim=i, n_curve=n_curve: callback_data(data.data, dim, n_curve)))
+			self.subs[-1].append(rospy.Subscriber(sub_name, Float64, lambda data, dim=i, n_curve=n_curve: callback_data(data.data, dim, n_curve)))
 		self.subs.append([])
 
 	def create_window(self):
