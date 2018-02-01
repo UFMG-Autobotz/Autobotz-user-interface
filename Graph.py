@@ -6,7 +6,10 @@ from PyQt4 import QtGui
 import sys
 
 import rospy
-from std_msgs.msg import Float64
+from importlib import import_module
+
+# from std_msgs.msg import Float64
+# from geometry_msgs.msg import Vector3, Pose
 
 from lib.general_utils import get_yaml_dict, check_file, check_arguments
 from lib.RTPlotter import RTPlotter
@@ -73,20 +76,59 @@ class Graph_Window(QtGui.QWidget):
 		self.splitter.setStretchFactor(1,1)
 
 	def new_curve(self):
-		dims = self.graph_type_choice.currentIndex() + 1
+		dims = self.graph_type_choice.currentIndex() + 1 # number of dimensions 1D, 2D or 3D
+
+		# if number of dimensions changed of there is no graph_window yet, create new graph
 		if dims != self.dims or self.graph_window is None:
 			self.dims = dims
 			self.new_graph()
+
 		self.graph_window.add_curve()
 
+		def binary_callback_data(data, d):
+			connection_header =  data._connection_header['type'].split('/')
+
+			ros_pkg = connection_header[0] + '.msg'
+			msg_type = connection_header[1]
+			print msg_type
+			msg_class = getattr(import_module(ros_pkg), msg_type)
+
+			self.subs[d["x"]][d["y"]].unregister()
+			self.subs[d["x"]].append(rospy.Subscriber(d["topic"], msg_class,
+				lambda data, dim=d["dim"], n_curve=d["n_curve"],
+				attributes=d["attributes"]:callback_data(data, dim, n_curve, attributes)))
+
 		@self.graph_window.data_wrapper
-		def callback_data(data, dim, n_curve):
+		def callback_data(data, dim, n_curve, attributes):
+			# access attributes recursively
+			for i in attributes:
+				try:
+					data = getattr(data, i)
+				except AttributeError:
+					raise
+
+			# if no attribute was given, try to read it as Float64 (attribute is data)
+			# if len(attributes) == 0:
+			# 	try:
+			# 		data = getattr(data, "data")
+			# 	except AttributeError:
+			# 		raise
+
 			return (data, dim, n_curve)
 
 		for i in range(self.dims):
-			sub_name = str(self.cb[self.dims-1][i].currentText())
-			n_curve = self.graph_window.n_curves -1
-			self.subs[-1].append(rospy.Subscriber(sub_name, Float64, lambda data, dim=i, n_curve=n_curve: callback_data(data.data, dim, n_curve)))
+			input_list = str(self.cb[self.dims-1][i].currentText()).split('.')
+
+			sub_dict = {}
+			sub_dict["dim"] = i
+			sub_dict["n_curve"] = self.graph_window.n_curves -1
+			sub_dict["topic"] = input_list[0]
+			sub_dict["attributes"] = input_list[1:]
+			sub_dict["x"] = len(self.subs)-1
+			sub_dict["y"] = len(self.subs[-1])
+
+			self.subs[-1].append(rospy.Subscriber(sub_dict["topic"], rospy.AnyMsg,
+				lambda data, sub_dict=sub_dict: binary_callback_data(data, sub_dict)))
 		self.subs.append([])
 
 	def create_window(self):
