@@ -125,12 +125,12 @@ class RTPlotter(pg.PlotWidget):
 		else:
 			pass
 
-	def data_wrapper(self, func, *args, **kwargs):
-		def wrapped(*args, **kwargs):
-			value, dim, n_curve = func(*args, **kwargs)
-			try:
-				self.givedata(value, dim, n_curve)
-			except TypeError:
-				raise
-
-		return wrapped
+	# def data_wrapper(self, func, *args, **kwargs):
+	# 	def wrapped(*args, **kwargs):
+	# 		value, dim, n_curve = func(*args, **kwargs)
+	# 		try:
+	# 			self.givedata(value, dim, n_curve)
+	# 		except TypeError:
+	# 			raise
+    #
+	# 	return wrapped

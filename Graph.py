@@ -90,7 +90,7 @@ class Graph_Window(QtGui.QWidget):
 
 			ros_pkg = connection_header[0] + '.msg'
 			msg_type = connection_header[1]
-			print msg_type
+
 			msg_class = getattr(import_module(ros_pkg), msg_type)
 
 			self.subs[d["x"]][d["y"]].unregister()
@@ -98,23 +98,26 @@ class Graph_Window(QtGui.QWidget):
 				lambda data, dim=d["dim"], n_curve=d["n_curve"],
 				attributes=d["attributes"]:callback_data(data, dim, n_curve, attributes)))
 
-		@self.graph_window.data_wrapper
+		# @self.graph_window.data_wrapper
 		def callback_data(data, dim, n_curve, attributes):
-			# access attributes recursively
-			for i in attributes:
-				try:
-					data = getattr(data, i)
-				except AttributeError:
-					raise
+			if type(data) != rospy.msg.AnyMsg:
+				# access attributes recursively
+				for i in attributes:
+					try:
+						data = getattr(data, i)
+					except AttributeError:
+						raise
 
-			# if no attribute was given, try to read it as Float64 (attribute is data)
-			# if len(attributes) == 0:
-			# 	try:
-			# 		data = getattr(data, "data")
-			# 	except AttributeError:
-			# 		raise
+				# if no attribute was given, try to read it as Float64 (attribute is data)
+				if len(attributes) == 0:
+					try:
+						data = getattr(data, "data")
+					except AttributeError:
+						raise
 
-			return (data, dim, n_curve)
+				self.graph_window.givedata(data, dim, n_curve)
+
+			# return (data, dim, n_curve)
 
 		for i in range(self.dims):
 			input_list = str(self.cb[self.dims-1][i].currentText()).split('.')
@@ -129,6 +132,7 @@ class Graph_Window(QtGui.QWidget):
 
 			self.subs[-1].append(rospy.Subscriber(sub_dict["topic"], rospy.AnyMsg,
 				lambda data, sub_dict=sub_dict: binary_callback_data(data, sub_dict)))
+			rospy.sleep(0.5)
 		self.subs.append([])
 
 	def create_window(self):
